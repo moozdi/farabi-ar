@@ -29,7 +29,10 @@
       font-family: Arial, sans-serif;
     }
 
-    /* ГОЛОГРАММА */
+
+    /* ============================= */
+    /* ГОЛОГРАММА                    */
+    /* ============================= */
 
     #hologramVideo {
 
@@ -49,11 +52,26 @@
 
       display: none;
 
+      /*
+        Убираем чёрный фон MP4
+      */
+
       mix-blend-mode: screen;
 
-      transform-origin: center bottom;
+      /*
+        Точка привязки —
+        нижняя часть видео
+      */
 
-      background: transparent;
+      transform-origin:
+        center bottom;
+
+      background:
+        transparent;
+
+      /*
+        Оптимизация движения
+      */
 
       will-change:
         transform,
@@ -63,7 +81,10 @@
 
     }
 
-    /* ПОДСКАЗКА */
+
+    /* ============================= */
+    /* ПОДСКАЗКА                     */
+    /* ============================= */
 
     #scanMessage {
 
@@ -74,24 +95,33 @@
       left: 50%;
       bottom: 35px;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
-      padding: 12px 20px;
+      padding:
+        12px 20px;
 
       background:
         rgba(0, 0, 0, 0.7);
 
-      color: white;
+      color:
+        white;
 
-      border-radius: 30px;
+      border-radius:
+        30px;
 
-      font-size: 15px;
+      font-size:
+        15px;
 
-      white-space: nowrap;
+      white-space:
+        nowrap;
 
     }
 
-    /* МЕНЮ ЯЗЫКОВ */
+
+    /* ============================= */
+    /* МЕНЮ ЯЗЫКОВ                   */
+    /* ============================= */
 
     #languageMenu {
 
@@ -102,91 +132,129 @@
       left: 50%;
       bottom: 35px;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
       width:
         calc(100% - 40px);
 
-      max-width: 360px;
+      max-width:
+        360px;
 
-      padding: 20px;
+      padding:
+        20px;
 
-      box-sizing: border-box;
+      box-sizing:
+        border-box;
 
       background:
         rgba(0, 0, 0, 0.80);
 
-      border-radius: 20px;
+      border-radius:
+        20px;
 
-      color: white;
+      color:
+        white;
 
-      text-align: center;
+      text-align:
+        center;
 
-      display: none;
+      display:
+        none;
 
     }
+
 
     #languageMenu h2 {
 
-      margin: 0 0 15px;
+      margin:
+        0 0 15px;
 
-      font-size: 20px;
+      font-size:
+        20px;
 
     }
+
 
     .langButton {
 
-      display: block;
+      display:
+        block;
 
-      width: 100%;
+      width:
+        100%;
 
-      padding: 14px;
+      padding:
+        14px;
 
-      margin-top: 10px;
+      margin-top:
+        10px;
 
-      border: none;
+      border:
+        none;
 
-      border-radius: 12px;
+      border-radius:
+        12px;
 
-      background: white;
+      background:
+        white;
 
-      color: black;
+      color:
+        black;
 
-      font-size: 17px;
+      font-size:
+        17px;
 
-      font-weight: 600;
+      font-weight:
+        600;
 
-      cursor: pointer;
+      cursor:
+        pointer;
 
     }
 
-    /* СМЕНА ЯЗЫКА */
+
+    /* ============================= */
+    /* СМЕНА ЯЗЫКА                   */
+    /* ============================= */
 
     #changeLanguage {
 
-      position: fixed;
+      position:
+        fixed;
 
-      z-index: 102;
+      z-index:
+        102;
 
-      top: 20px;
-      right: 20px;
+      top:
+        20px;
 
-      padding: 10px 14px;
+      right:
+        20px;
 
-      border: none;
+      padding:
+        10px 14px;
 
-      border-radius: 20px;
+      border:
+        none;
+
+      border-radius:
+        20px;
 
       background:
         rgba(0, 0, 0, 0.7);
 
-      color: white;
+      color:
+        white;
 
-      font-size: 14px;
+      font-size:
+        14px;
 
-      display: none;
+      display:
+        none;
 
-      cursor: pointer;
+      cursor:
+        pointer;
 
     }
 
@@ -197,63 +265,94 @@
 
 <body>
 
-  <!-- ПОДСКАЗКА -->
+
+  <!-- ============================= -->
+  <!-- ПОДСКАЗКА                     -->
+  <!-- ============================= -->
 
   <div id="scanMessage">
-    Наведите камеру на диплом
+
+    Камераны дипломға бағыттаңыз / Наведите камеру на диплом / Point the camera at the diploma
+
   </div>
 
 
-  <!-- СМЕНА ЯЗЫКА -->
+  <!-- ============================= -->
+  <!-- СМЕНА ЯЗЫКА                   -->
+  <!-- ============================= -->
 
   <button id="changeLanguage">
-    Сменить язык
+
+    Тілді ауыстыру / Сменить язык / Change language
+
   </button>
 
 
-  <!-- МЕНЮ -->
+  <!-- ============================= -->
+  <!-- МЕНЮ                          -->
+  <!-- ============================= -->
 
   <div id="languageMenu">
 
     <h2>
-      Тілді таңдаңыз / Выберите язык
+
+      Тілді таңдаңыз / Выберите язык / Selected language
+
     </h2>
+
 
     <button
       class="langButton"
       data-src="./video/kaz_hologram.mp4"
     >
+
       🇰🇿 Қазақша
+
     </button>
+
 
     <button
       class="langButton"
       data-src="./video/rus_hologram.mp4"
     >
+
       🇷🇺 Русский
+
     </button>
+
 
     <button
       class="langButton"
       data-src="./video/eng_hologram.mp4"
     >
+
       🇬🇧 English
+
     </button>
 
   </div>
 
 
-  <!-- HTML VIDEO -->
+  <!-- ============================= -->
+  <!-- HTML VIDEO                    -->
+  <!-- ============================= -->
 
   <video
+
     id="hologramVideo"
+
     playsinline
+
     webkit-playsinline
+
     preload="none"
+
   ></video>
 
 
-  <!-- MINDAR -->
+  <!-- ============================= -->
+  <!-- MINDAR                        -->
+  <!-- ============================= -->
 
   <a-scene
 
@@ -284,7 +383,10 @@
 
   >
 
-    <!-- КАМЕРА -->
+
+    <!-- ============================= -->
+    <!-- КАМЕРА                        -->
+    <!-- ============================= -->
 
     <a-camera
 
@@ -299,7 +401,9 @@
     ></a-camera>
 
 
-    <!-- TARGET -->
+    <!-- ============================= -->
+    <!-- TARGET                        -->
+    <!-- ============================= -->
 
     <a-entity
 
@@ -311,9 +415,13 @@
 
     >
 
+
       <!--
-        Центральная точка.
-        Здесь будут "стоять ноги".
+        Центральная точка диплома.
+
+        Здесь находится точка,
+        на которой "стоит"
+        Әл-Фараби.
       -->
 
       <a-entity
@@ -329,9 +437,7 @@
       ></a-entity>
 
 
-      <!--
-        Левая точка диплома
-      -->
+      <!-- Левая точка диплома -->
 
       <a-entity
 
@@ -346,9 +452,7 @@
       ></a-entity>
 
 
-      <!--
-        Правая точка диплома
-      -->
+      <!-- Правая точка диплома -->
 
       <a-entity
 
@@ -362,57 +466,114 @@
 
       ></a-entity>
 
+
     </a-entity>
+
 
   </a-scene>
 
 
 <script>
 
-/* ============================= */
-/* ЭЛЕМЕНТЫ                      */
-/* ============================= */
+
+/* ========================================= */
+/* ЭЛЕМЕНТЫ                                  */
+/* ========================================= */
+
 
 const target =
   document.querySelector("#target");
 
+
 const anchorPoint =
   document.querySelector("#anchorPoint");
+
 
 const leftPoint =
   document.querySelector("#leftPoint");
 
+
 const rightPoint =
   document.querySelector("#rightPoint");
+
 
 const cameraElement =
   document.querySelector("#arCamera");
 
+
 const video =
   document.querySelector("#hologramVideo");
+
 
 const languageMenu =
   document.querySelector("#languageMenu");
 
+
 const scanMessage =
   document.querySelector("#scanMessage");
+
 
 const changeLanguage =
   document.querySelector("#changeLanguage");
 
 
-/* ============================= */
-/* СОСТОЯНИЕ                     */
-/* ============================= */
 
-let targetVisible = false;
-
-let videoSelected = false;
+/* ========================================= */
+/* СОСТОЯНИЕ                                 */
+/* ========================================= */
 
 
-/* ============================= */
-/* TARGET FOUND                  */
-/* ============================= */
+let targetVisible =
+  false;
+
+
+let videoSelected =
+  false;
+
+
+
+/* ========================================= */
+/* СГЛАЖИВАНИЕ                               */
+/* ========================================= */
+
+
+/*
+
+  Чем МЕНЬШЕ число,
+  тем плавнее движение.
+
+  0.05 = очень плавно,
+         но появляется задержка
+
+  0.10 = хороший баланс
+
+  0.20 = быстро реагирует,
+         но больше дрожи
+
+*/
+
+
+const SMOOTHING =
+  0.10;
+
+
+let smoothX =
+  null;
+
+
+let smoothY =
+  null;
+
+
+let smoothWidth =
+  null;
+
+
+
+/* ========================================= */
+/* TARGET FOUND                              */
+/* ========================================= */
+
 
 target.addEventListener(
 
@@ -420,36 +581,72 @@ target.addEventListener(
 
   () => {
 
-    targetVisible = true;
+
+    targetVisible =
+      true;
+
 
     scanMessage.style.display =
       "none";
 
+
+    /*
+      Сбрасываем сглаживание.
+
+      Это важно, чтобы после
+      повторного наведения
+      голограмма сразу появилась
+      на правильном месте,
+      а не прилетала со старой позиции.
+    */
+
+
+    smoothX =
+      null;
+
+
+    smoothY =
+      null;
+
+
+    smoothWidth =
+      null;
+
+
     if (!videoSelected) {
+
 
       languageMenu.style.display =
         "block";
 
+
     }
 
+
     else {
+
 
       languageMenu.style.display =
         "none";
 
+
       video.style.display =
         "block";
 
+
     }
+
 
   }
 
 );
 
 
-/* ============================= */
-/* TARGET LOST                   */
-/* ============================= */
+
+/* ========================================= */
+/* TARGET LOST                               */
+/* ========================================= */
+
 
 target.addEventListener(
 
@@ -457,34 +654,47 @@ target.addEventListener(
 
   () => {
 
-    targetVisible = false;
+
+    targetVisible =
+      false;
+
 
     languageMenu.style.display =
       "none";
 
+
     scanMessage.style.display =
       "block";
 
+
     /*
-      Видео не останавливаем.
-      Оно продолжает играть.
+      Видео НЕ останавливаем.
+
+      Оно продолжает идти,
+      даже если MindAR
+      ненадолго потерял диплом.
     */
+
 
     video.style.display =
       "none";
+
 
   }
 
 );
 
 
-/* ============================= */
-/* ВЫБОР ЯЗЫКА                   */
-/* ============================= */
+
+/* ========================================= */
+/* ВЫБОР ЯЗЫКА                               */
+/* ========================================= */
+
 
 document
   .querySelectorAll(".langButton")
   .forEach(button => {
+
 
     button.addEventListener(
 
@@ -492,59 +702,100 @@ document
 
       async () => {
 
+
         const source =
           button.dataset.src;
 
+
         video.pause();
+
 
         video.src =
           source;
 
+
         video.load();
+
 
         video.currentTime =
           0;
 
+
         videoSelected =
           true;
+
+
+        /*
+          Сбрасываем координаты
+          перед новым видео.
+        */
+
+
+        smoothX =
+          null;
+
+
+        smoothY =
+          null;
+
+
+        smoothWidth =
+          null;
+
 
         languageMenu.style.display =
           "none";
 
+
         changeLanguage.style.display =
           "block";
+
 
         video.style.display =
           "block";
 
+
         try {
+
 
           video.muted =
             false;
 
+
           await video.play();
 
+
         }
+
 
         catch(error) {
 
+
           console.error(
+
             "Video play error:",
+
             error
+
           );
 
+
         }
+
 
       }
 
     );
 
+
   });
 
 
-/* ============================= */
-/* ВИДЕО ЗАКОНЧИЛОСЬ             */
-/* ============================= */
+
+/* ========================================= */
+/* ВИДЕО ЗАКОНЧИЛОСЬ                         */
+/* ========================================= */
+
 
 video.addEventListener(
 
@@ -552,48 +803,76 @@ video.addEventListener(
 
   () => {
 
+
     video.pause();
+
 
     video.currentTime =
       0;
 
+
     video.style.display =
       "none";
+
 
     videoSelected =
       false;
 
+
     changeLanguage.style.display =
       "none";
 
+
+    smoothX =
+      null;
+
+
+    smoothY =
+      null;
+
+
+    smoothWidth =
+      null;
+
+
     if (targetVisible) {
+
 
       languageMenu.style.display =
         "block";
 
+
       scanMessage.style.display =
         "none";
 
+
     }
+
 
     else {
 
+
       languageMenu.style.display =
         "none";
+
 
       scanMessage.style.display =
         "block";
 
+
     }
+
 
   }
 
 );
 
 
-/* ============================= */
-/* СМЕНА ЯЗЫКА                   */
-/* ============================= */
+
+/* ========================================= */
+/* СМЕНА ЯЗЫКА                               */
+/* ========================================= */
+
 
 changeLanguage.addEventListener(
 
@@ -601,64 +880,102 @@ changeLanguage.addEventListener(
 
   () => {
 
+
     video.pause();
+
 
     video.currentTime =
       0;
 
+
     video.style.display =
       "none";
+
 
     videoSelected =
       false;
 
+
     changeLanguage.style.display =
       "none";
 
+
+    smoothX =
+      null;
+
+
+    smoothY =
+      null;
+
+
+    smoothWidth =
+      null;
+
+
     if (targetVisible) {
+
 
       languageMenu.style.display =
         "block";
 
+
     }
+
 
   }
 
 );
 
 
-/* ============================= */
-/* ВЕКТОРЫ                       */
-/* ============================= */
+
+/* ========================================= */
+/* THREE.JS ВЕКТОРЫ                          */
+/* ========================================= */
+
 
 const anchorWorld =
   new THREE.Vector3();
 
+
 const leftWorld =
   new THREE.Vector3();
+
 
 const rightWorld =
   new THREE.Vector3();
 
+
 const anchorProjected =
   new THREE.Vector3();
 
+
 const leftProjected =
   new THREE.Vector3();
+
 
 const rightProjected =
   new THREE.Vector3();
 
 
-/* ============================= */
-/* AR → SCREEN                   */
-/* ============================= */
+
+/* ========================================= */
+/* AR → SCREEN                               */
+/* ========================================= */
+
 
 function updateHologramPosition() {
+
 
   requestAnimationFrame(
     updateHologramPosition
   );
+
+
+  /*
+    Пока диплом не виден
+    или видео не выбрано —
+    ничего не делаем.
+  */
 
 
   if (
@@ -674,7 +991,9 @@ function updateHologramPosition() {
   }
 
 
+
   const camera =
+
     cameraElement.getObject3D(
       "camera"
     );
@@ -687,9 +1006,11 @@ function updateHologramPosition() {
   }
 
 
-  /* ============================= */
-  /* ПОЛУЧАЕМ ТОЧКИ ДИПЛОМА       */
-  /* ============================= */
+
+  /* ======================================= */
+  /* ПОЛУЧАЕМ AR-КООРДИНАТЫ                  */
+  /* ======================================= */
+
 
   anchorPoint
     .object3D
@@ -697,11 +1018,13 @@ function updateHologramPosition() {
       anchorWorld
     );
 
+
   leftPoint
     .object3D
     .getWorldPosition(
       leftWorld
     );
+
 
   rightPoint
     .object3D
@@ -710,26 +1033,32 @@ function updateHologramPosition() {
     );
 
 
-  /* ============================= */
-  /* ПРОЕКЦИЯ НА ЭКРАН             */
-  /* ============================= */
+
+  /* ======================================= */
+  /* ПРОЕКЦИЯ В КАМЕРУ                       */
+  /* ======================================= */
+
 
   anchorProjected
     .copy(anchorWorld)
     .project(camera);
 
+
   leftProjected
     .copy(leftWorld)
     .project(camera);
+
 
   rightProjected
     .copy(rightWorld)
     .project(camera);
 
 
-  /* ============================= */
-  /* ЭКРАННЫЕ КООРДИНАТЫ           */
-  /* ============================= */
+
+  /* ======================================= */
+  /* КООРДИНАТЫ ЭКРАНА                       */
+  /* ======================================= */
+
 
   const anchorX =
 
@@ -742,6 +1071,7 @@ function updateHologramPosition() {
     *
 
     window.innerWidth;
+
 
 
   const anchorY =
@@ -757,6 +1087,7 @@ function updateHologramPosition() {
     window.innerHeight;
 
 
+
   const leftX =
 
     (
@@ -768,6 +1099,7 @@ function updateHologramPosition() {
     *
 
     window.innerWidth;
+
 
 
   const leftY =
@@ -783,6 +1115,7 @@ function updateHologramPosition() {
     window.innerHeight;
 
 
+
   const rightX =
 
     (
@@ -794,6 +1127,7 @@ function updateHologramPosition() {
     *
 
     window.innerWidth;
+
 
 
   const rightY =
@@ -809,9 +1143,11 @@ function updateHologramPosition() {
     window.innerHeight;
 
 
-  /* ============================= */
-  /* ВИДИМАЯ ШИРИНА ДИПЛОМА       */
-  /* ============================= */
+
+  /* ======================================= */
+  /* РАЗМЕР ДИПЛОМА НА ЭКРАНЕ                */
+  /* ======================================= */
+
 
   const targetWidthPixels =
 
@@ -824,19 +1160,21 @@ function updateHologramPosition() {
     );
 
 
-  /* ============================= */
-  /* РАЗМЕР ГОЛОГРАММЫ             */
-  /* ============================= */
+
+  /* ======================================= */
+  /* РАЗМЕР ӘЛЬ-ФАРАБИ                       */
+  /* ======================================= */
+
 
   /*
-    2.0 = размер относительно диплома.
+    Ты выбрал 1.0.
 
-    Если окажется слишком большой:
-    поставь 1.6
+    Поэтому оставляем:
 
-    Если слишком маленький:
-    поставь 2.3
+    размер голограммы =
+    ширина диплома × 1.0
   */
+
 
   const hologramWidth =
 
@@ -844,38 +1182,117 @@ function updateHologramPosition() {
     1.0;
 
 
+
+  /* ======================================= */
+  /* ПЕРВЫЙ КАДР                             */
+  /* ======================================= */
+
+
+  if (smoothX === null) {
+
+
+    smoothX =
+      anchorX;
+
+
+    smoothY =
+      anchorY;
+
+
+    smoothWidth =
+      hologramWidth;
+
+
+  }
+
+
+
+  /* ======================================= */
+  /* ПЛАВНОЕ ДВИЖЕНИЕ                        */
+  /* ======================================= */
+
+
+  smoothX +=
+
+    (
+      anchorX -
+      smoothX
+    )
+
+    *
+
+    SMOOTHING;
+
+
+
+  smoothY +=
+
+    (
+      anchorY -
+      smoothY
+    )
+
+    *
+
+    SMOOTHING;
+
+
+
+  smoothWidth +=
+
+    (
+      hologramWidth -
+      smoothWidth
+    )
+
+    *
+
+    SMOOTHING;
+
+
+
+  /* ======================================= */
+  /* ПРИМЕНЯЕМ РАЗМЕР                        */
+  /* ======================================= */
+
+
   video.style.width =
 
-    hologramWidth +
+    smoothWidth +
     "px";
 
 
-  /* ============================= */
-  /* ПОЗИЦИЯ                       */
-  /* ============================= */
+
+  /* ======================================= */
+  /* ПРИМЕНЯЕМ ПОЗИЦИЮ                       */
+  /* ======================================= */
+
 
   video.style.left =
 
-    anchorX +
+    smoothX +
     "px";
 
 
   video.style.top =
 
-    anchorY +
+    smoothY +
     "px";
 
 
-  /*
-    Центрируем по X.
 
-    По Y нижний край видео
-    становится точкой опоры.
+  /*
+    -50% по X:
+    центрируем персонажа.
+
+    -100% по Y:
+    нижняя часть видео
+    находится на дипломе.
 
     Поэтому Әл-Фараби
-    визуально "стоит"
-    на дипломе.
+    визуально стоит на нём.
   */
+
 
   video.style.transform =
 
@@ -886,14 +1303,18 @@ function updateHologramPosition() {
 
     "block";
 
+
 }
 
 
-/* ============================= */
-/* ЗАПУСК                        */
-/* ============================= */
+
+/* ========================================= */
+/* ЗАПУСК                                    */
+/* ========================================= */
+
 
 updateHologramPosition();
+
 
 </script>
 
