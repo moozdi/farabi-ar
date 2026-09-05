@@ -454,17 +454,23 @@
 
       -->
 
-      <a-entity
+      <!-- Точка, где "стоят ноги" Әл-Фараби -->
+<a-entity
+  id="anchorPoint"
+  position="0 0 0"
+></a-entity>
 
-        id="anchorPoint"
+<!-- Левый край диплома -->
+<a-entity
+  id="leftPoint"
+  position="-0.5 0 0"
+></a-entity>
 
-        position="
-          0
-          0
-          0
-        "
-
-      ></a-entity>
+<!-- Правый край диплома -->
+<a-entity
+  id="rightPoint"
+  position="0.5 0 0"
+></a-entity>
 
 
     </a-entity>
@@ -488,6 +494,13 @@ const target =
 
 const anchorPoint =
   document.querySelector("#anchorPoint");
+
+
+const leftPoint =
+  document.querySelector("#leftPoint");
+
+const rightPoint =
+  document.querySelector("#rightPoint");
 
 
 const cameraElement =
@@ -816,21 +829,153 @@ changeLanguage.addEventListener(
 /* ========================================= */
 
 
-const worldPosition =
-  new THREE.Vector3();
+const anchorWorld = new THREE.Vector3();
+const leftWorld = new THREE.Vector3();
+const rightWorld = new THREE.Vector3();
 
-
-const projectedPosition =
-  new THREE.Vector3();
-
+const anchorProjected = new THREE.Vector3();
+const leftProjected = new THREE.Vector3();
+const rightProjected = new THREE.Vector3();
 
 
 function updateHologramPosition() {
 
+  requestAnimationFrame(updateHologramPosition);
 
-  requestAnimationFrame(
-    updateHologramPosition
-  );
+
+  if (!targetVisible || !videoSelected) {
+    return;
+  }
+
+
+  const camera =
+    cameraElement.getObject3D("camera");
+
+
+  if (!camera) {
+    return;
+  }
+
+
+  /* ============================= */
+  /* ПОЛУЧАЕМ ТОЧКИ ДИПЛОМА       */
+  /* ============================= */
+
+  anchorPoint.object3D.getWorldPosition(anchorWorld);
+
+  leftPoint.object3D.getWorldPosition(leftWorld);
+
+  rightPoint.object3D.getWorldPosition(rightWorld);
+
+
+  /* ============================= */
+  /* ПЕРЕВОДИМ В КООРДИНАТЫ ЭКРАНА */
+  /* ============================= */
+
+  anchorProjected
+    .copy(anchorWorld)
+    .project(camera);
+
+  leftProjected
+    .copy(leftWorld)
+    .project(camera);
+
+  rightProjected
+    .copy(rightWorld)
+    .project(camera);
+
+
+  const anchorX =
+    (anchorProjected.x * 0.5 + 0.5)
+    * window.innerWidth;
+
+
+  const anchorY =
+    (-anchorProjected.y * 0.5 + 0.5)
+    * window.innerHeight;
+
+
+  const leftX =
+    (leftProjected.x * 0.5 + 0.5)
+    * window.innerWidth;
+
+
+  const leftY =
+    (-leftProjected.y * 0.5 + 0.5)
+    * window.innerHeight;
+
+
+  const rightX =
+    (rightProjected.x * 0.5 + 0.5)
+    * window.innerWidth;
+
+
+  const rightY =
+    (-rightProjected.y * 0.5 + 0.5)
+    * window.innerHeight;
+
+
+  /* ============================= */
+  /* ВИДИМАЯ ШИРИНА ДИПЛОМА       */
+  /* ============================= */
+
+  const targetWidthPixels =
+    Math.hypot(
+      rightX - leftX,
+      rightY - leftY
+    );
+
+
+  /*
+    Размер Әл-Фараби относительно диплома.
+
+    2.0 = примерно в два раза
+    шире вычисленной базы.
+
+    Это число потом можешь менять:
+    1.5 — меньше
+    2.0 — текущий
+    2.5 — крупнее
+  */
+
+  const hologramWidth =
+    targetWidthPixels * 2.0;
+
+
+  video.style.width =
+    hologramWidth + "px";
+
+
+  /* ============================= */
+  /* ПОЗИЦИЯ НОГ                   */
+  /* ============================= */
+
+  video.style.left =
+    anchorX + "px";
+
+
+  video.style.top =
+    anchorY + "px";
+
+
+  /*
+    -50% по X = центрируем.
+
+    -100% по Y =
+    нижний край видео стоит
+    непосредственно на дипломе.
+  */
+
+  video.style.transform =
+    "translate(-50%, -100%)";
+
+
+  video.style.display =
+    "block";
+}
+
+
+updateHologramPosition();
 
 
   /*
