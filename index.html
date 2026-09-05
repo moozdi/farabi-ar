@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no"
+  />
 
   <title>Әл-Фараби AR</title>
 
+  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+  <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <style>
-    html, body {
+    html,
+    body {
       margin: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
       font-family: Arial, sans-serif;
+      background: #000;
     }
 
     #languageMenu {
       position: fixed;
       z-index: 9999;
+
       left: 50%;
-      bottom: 40px;
+      bottom: 35px;
       transform: translateX(-50%);
+
       width: calc(100% - 40px);
       max-width: 360px;
 
@@ -32,6 +42,8 @@
       box-sizing: border-box;
 
       background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(10px);
+
       border-radius: 20px;
 
       color: white;
@@ -41,13 +53,15 @@
     }
 
     #languageMenu h2 {
-      margin: 0 0 16px;
+      margin: 0 0 15px;
       font-size: 20px;
     }
 
     .langButton {
       display: block;
+
       width: 100%;
+
       padding: 14px;
       margin-top: 10px;
 
@@ -65,196 +79,580 @@
 
     #scanMessage {
       position: fixed;
+
       z-index: 9998;
+
       left: 50%;
-      bottom: 40px;
+      bottom: 35px;
+
       transform: translateX(-50%);
 
       padding: 12px 20px;
 
-      background: rgba(0,0,0,.7);
+      background: rgba(0, 0, 0, 0.7);
+
       color: white;
 
       border-radius: 30px;
+
       font-size: 15px;
 
       white-space: nowrap;
+    }
+
+    #changeLanguage {
+      position: fixed;
+
+      z-index: 9999;
+
+      top: 20px;
+      right: 20px;
+
+      padding: 10px 14px;
+
+      border: none;
+      border-radius: 20px;
+
+      background: rgba(0, 0, 0, 0.7);
+
+      color: white;
+
+      font-size: 14px;
+
+      display: none;
+
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
+  <!-- Сообщение до распознавания диплома -->
+
   <div id="scanMessage">
     Наведите камеру на диплом
   </div>
 
+
+  <!-- Кнопка смены языка -->
+
+  <button id="changeLanguage">
+    Сменить язык
+  </button>
+
+
+  <!-- Меню выбора языка -->
+
   <div id="languageMenu">
 
-    <h2>Тілді таңдаңыз / Выберите язык</h2>
+    <h2>
+      Тілді таңдаңыз / Выберите язык
+    </h2>
 
-    <button class="langButton" data-video="#videoKZ">
+    <button
+      class="langButton"
+      data-video="#videoKZ"
+    >
       🇰🇿 Қазақша
     </button>
 
-    <button class="langButton" data-video="#videoRU">
+    <button
+      class="langButton"
+      data-video="#videoRU"
+    >
       🇷🇺 Русский
     </button>
 
-    <button class="langButton" data-video="#videoEN">
+    <button
+      class="langButton"
+      data-video="#videoEN"
+    >
       🇬🇧 English
     </button>
 
   </div>
 
 
+  <!-- AR SCENE -->
+
   <a-scene
-    mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;"
+
+    mindar-image="
+      imageTargetSrc: ./targets.mind;
+      autoStart: true;
+
+      warmupTolerance: 3;
+      missTolerance: 15;
+
+      filterMinCF: 0.001;
+      filterBeta: 1000;
+    "
+
     color-space="sRGB"
-    renderer="colorManagement: true; physicallyCorrectLights: true; alpha: true;"
+
+    renderer="
+      colorManagement: true;
+      physicallyCorrectLights: true;
+      alpha: true;
+    "
+
     vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false">
+
+    device-orientation-permission-ui="enabled: false"
+  >
+
+
+    <!-- ВИДЕО -->
 
     <a-assets>
 
+      <!-- Қазақша -->
+
       <video
         id="videoKZ"
+
         src="./video/kaz_alpha.webm"
+
         preload="none"
-        loop
+
         muted
+
         playsinline
         webkit-playsinline
-        crossorigin="anonymous">
+
+        crossorigin="anonymous"
+      >
       </video>
+
+
+      <!-- Русский -->
 
       <video
         id="videoRU"
+
         src="./video/rus_alpha.webm"
+
         preload="none"
-        loop
+
         muted
+
         playsinline
         webkit-playsinline
-        crossorigin="anonymous">
+
+        crossorigin="anonymous"
+      >
       </video>
+
+
+      <!-- English -->
 
       <video
         id="videoEN"
+
         src="./video/eng_alpha.webm"
+
         preload="none"
-        loop
+
         muted
+
         playsinline
         webkit-playsinline
-        crossorigin="anonymous">
+
+        crossorigin="anonymous"
+      >
       </video>
 
     </a-assets>
 
 
+    <!-- КАМЕРА -->
+
     <a-camera
+
       position="0 0 0"
-      look-controls="enabled: false">
+
+      look-controls="enabled: false"
+    >
     </a-camera>
 
 
+    <!-- ДИПЛОМ -->
+
     <a-entity
+
       id="target"
-      mindar-image-target="targetIndex: 0">
+
+      mindar-image-target="
+        targetIndex: 0
+      "
+    >
+
+
+      <!-- ГОЛОГРАММА -->
 
       <a-entity
-  id="hologram"
-  geometry="primitive: plane; width: 1; height: 1.7778"
-  position="0 0 0.1"
-  material="shader: flat; transparent: true; alphaTest: 0.01; side: double">
-</a-entity>
+
+        id="hologram"
+
+        geometry="
+          primitive: plane;
+          width: 1;
+          height: 1.7778;
+        "
+
+        position="
+          0
+          0
+          0.1
+        "
+
+        material="
+          shader: flat;
+          transparent: true;
+          alphaTest: 0.01;
+          side: double;
+        "
+
+        visible="false"
+      >
+      </a-entity>
+
 
     </a-entity>
+
 
   </a-scene>
 
 
-<script>
+  <!-- JAVASCRIPT -->
 
-const target = document.querySelector("#target");
-const hologram = document.querySelector("#hologram");
+  <script>
 
-const languageMenu = document.querySelector("#languageMenu");
-const scanMessage = document.querySelector("#scanMessage");
+    // =============================
+    // ЭЛЕМЕНТЫ
+    // =============================
 
-let selectedVideo = null;
+    const target =
+      document.querySelector("#target");
 
+    const hologram =
+      document.querySelector("#hologram");
 
-// Диплом найден
+    const languageMenu =
+      document.querySelector("#languageMenu");
 
-target.addEventListener("targetFound", () => {
+    const scanMessage =
+      document.querySelector("#scanMessage");
 
-    scanMessage.style.display = "none";
-
-    if (!selectedVideo) {
-        languageMenu.style.display = "block";
-    }
-
-});
-
-
-// Диплом потерян
-
-target.addEventListener("targetLost", () => {
-
-    languageMenu.style.display = "none";
-    scanMessage.style.display = "block";
-
-    if (selectedVideo) {
-        selectedVideo.pause();
-    }
-
-});
+    const changeLanguage =
+      document.querySelector("#changeLanguage");
 
 
-// Выбор языка
+    // =============================
+    // СОСТОЯНИЕ
+    // =============================
 
-document.querySelectorAll(".langButton").forEach(button => {
+    let selectedVideo = null;
 
-    button.addEventListener("click", async () => {
+    let targetIsVisible = false;
 
-        const selector = button.dataset.video;
-        const video = document.querySelector(selector);
 
-        // остановить остальные видео
+    // =============================
+    // ОСТАНОВИТЬ ВСЕ ВИДЕО
+    // =============================
 
-        document.querySelectorAll("video").forEach(v => {
-            v.pause();
-            v.currentTime = 0;
+    function stopAllVideos() {
+
+      document
+        .querySelectorAll("video")
+        .forEach(video => {
+
+          video.pause();
+
+          video.currentTime = 0;
+
         });
 
-
-        selectedVideo = video;
-
-        // назначить видео голограмме
-
-        hologram.setAttribute("src", selector);
-
-        languageMenu.style.display = "none";
+    }
 
 
-        try {
+    // =============================
+    // ВЕРНУТЬСЯ К ВЫБОРУ ЯЗЫКА
+    // =============================
 
-            video.muted = false;
-            await video.play();
+    function resetToLanguageMenu() {
 
-        } catch (error) {
+      stopAllVideos();
 
-            console.error("Video play error:", error);
+      selectedVideo = null;
+
+      hologram.setAttribute(
+        "visible",
+        "false"
+      );
+
+
+      hologram.removeAttribute(
+        "material"
+      );
+
+
+      hologram.setAttribute(
+
+        "material",
+
+        `
+        shader: flat;
+        transparent: true;
+        alphaTest: 0.01;
+        side: double;
+        `
+
+      );
+
+
+      changeLanguage.style.display =
+        "none";
+
+
+      if (targetIsVisible) {
+
+        scanMessage.style.display =
+          "none";
+
+        languageMenu.style.display =
+          "block";
+
+      }
+
+      else {
+
+        languageMenu.style.display =
+          "none";
+
+        scanMessage.style.display =
+          "block";
+
+      }
+
+    }
+
+
+    // =============================
+    // ДИПЛОМ НАЙДЕН
+    // =============================
+
+    target.addEventListener(
+
+      "targetFound",
+
+      () => {
+
+        targetIsVisible = true;
+
+        scanMessage.style.display =
+          "none";
+
+
+        if (!selectedVideo) {
+
+          languageMenu.style.display =
+            "block";
 
         }
 
-    });
+        else {
 
-});
+          languageMenu.style.display =
+            "none";
 
-</script>
+          hologram.setAttribute(
+            "visible",
+            "true"
+          );
+
+        }
+
+      }
+
+    );
+
+
+    // =============================
+    // ДИПЛОМ ПОТЕРЯН
+    // =============================
+
+    target.addEventListener(
+
+      "targetLost",
+
+      () => {
+
+        targetIsVisible = false;
+
+        languageMenu.style.display =
+          "none";
+
+        scanMessage.style.display =
+          "block";
+
+
+        /*
+        ВАЖНО:
+
+        Видео здесь НЕ останавливаем.
+
+        Оно продолжает играть,
+        даже если MindAR на несколько кадров
+        потерял диплом.
+        */
+
+      }
+
+    );
+
+
+    // =============================
+    // ВЫБОР ЯЗЫКА
+    // =============================
+
+    document
+      .querySelectorAll(".langButton")
+      .forEach(button => {
+
+        button.addEventListener(
+
+          "click",
+
+          async () => {
+
+            const selector =
+              button.dataset.video;
+
+            const video =
+              document.querySelector(selector);
+
+
+            // Остановить старое видео
+
+            stopAllVideos();
+
+
+            selectedVideo =
+              video;
+
+
+            // Назначаем видео
+            // как материал голограммы
+
+            hologram.setAttribute(
+
+              "material",
+
+              `
+              shader: flat;
+              src: ${selector};
+              transparent: true;
+              alphaTest: 0.01;
+              side: double;
+              `
+
+            );
+
+
+            hologram.setAttribute(
+              "visible",
+              "true"
+            );
+
+
+            // Убираем меню
+
+            languageMenu.style.display =
+              "none";
+
+
+            // Показываем смену языка
+
+            changeLanguage.style.display =
+              "block";
+
+
+            try {
+
+              /*
+              Запуск происходит
+              после нажатия пользователя,
+              поэтому можно включить звук.
+              */
+
+              video.muted = false;
+
+              video.currentTime = 0;
+
+              await video.play();
+
+            }
+
+            catch (error) {
+
+              console.error(
+                "Video play error:",
+                error
+              );
+
+            }
+
+          }
+
+        );
+
+      });
+
+
+    // =============================
+    // ВИДЕО ЗАКОНЧИЛОСЬ
+    // =============================
+
+    document
+      .querySelectorAll("video")
+      .forEach(video => {
+
+        video.addEventListener(
+
+          "ended",
+
+          () => {
+
+            resetToLanguageMenu();
+
+          }
+
+        );
+
+      });
+
+
+    // =============================
+    // СМЕНИТЬ ЯЗЫК ВРУЧНУЮ
+    // =============================
+
+    changeLanguage.addEventListener(
+
+      "click",
+
+      () => {
+
+        resetToLanguageMenu();
+
+      }
+
+    );
+
+
+  </script>
+
 
 </body>
 </html>
