@@ -1,122 +1,390 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-  <meta charset="UTF-8" />
+
+  <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no"
-  />
+  >
 
   <title>Әл-Фараби AR</title>
 
+
+  <!-- A-FRAME -->
+
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+
+  <!-- MINDAR -->
+
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
+
   <style>
+
     html,
     body {
+
       margin: 0;
+
       width: 100%;
       height: 100%;
+
       overflow: hidden;
-      font-family: Arial, sans-serif;
+
+      font-family:
+        Arial,
+        sans-serif;
+
     }
+
+
+    /* ============================= */
+    /* ВИДЕО-ГОЛОГРАММА              */
+    /* ============================= */
+
+    #hologramVideo {
+
+      position: fixed;
+
+      z-index: 50;
+
+      left: 0;
+      top: 0;
+
+      width: 300px;
+
+      height: auto;
+
+      object-fit: contain;
+
+      pointer-events: none;
+
+      display: none;
+
+
+      /*
+        ГЛАВНОЕ:
+
+        Чёрный фон видео
+        смешивается с камерой.
+
+        Светлая голограмма
+        остаётся.
+      */
+
+      mix-blend-mode: screen;
+
+
+      /*
+        Центрирование относительно
+        вычисленной позиции.
+      */
+
+      transform-origin:
+        center center;
+
+
+      /*
+        Никакого чёрного
+        background здесь быть
+        не должно.
+      */
+
+      background: transparent;
+
+    }
+
+
+
+    /* ============================= */
+    /* ПОДСКАЗКА                     */
+    /* ============================= */
 
     #scanMessage {
+
       position: fixed;
-      z-index: 9998;
+
+      z-index: 100;
+
       left: 50%;
       bottom: 35px;
-      transform: translateX(-50%);
-      padding: 12px 20px;
-      background: rgba(0, 0, 0, 0.7);
+
+      transform:
+        translateX(-50%);
+
+      padding:
+        12px 20px;
+
+      background:
+        rgba(0, 0, 0, 0.7);
+
       color: white;
-      border-radius: 30px;
-      font-size: 15px;
-      white-space: nowrap;
+
+      border-radius:
+        30px;
+
+      font-size:
+        15px;
+
+      white-space:
+        nowrap;
+
     }
+
+
+
+    /* ============================= */
+    /* МЕНЮ ЯЗЫКОВ                   */
+    /* ============================= */
 
     #languageMenu {
+
       position: fixed;
-      z-index: 9999;
+
+      z-index: 101;
+
       left: 50%;
       bottom: 35px;
-      transform: translateX(-50%);
-      width: calc(100% - 40px);
-      max-width: 360px;
-      padding: 20px;
-      box-sizing: border-box;
-      background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      color: white;
-      text-align: center;
-      display: none;
+
+      transform:
+        translateX(-50%);
+
+      width:
+        calc(100% - 40px);
+
+      max-width:
+        360px;
+
+      padding:
+        20px;
+
+      box-sizing:
+        border-box;
+
+      background:
+        rgba(0, 0, 0, 0.80);
+
+      border-radius:
+        20px;
+
+      color:
+        white;
+
+      text-align:
+        center;
+
+      display:
+        none;
+
     }
+
 
     #languageMenu h2 {
-      margin: 0 0 15px;
-      font-size: 20px;
+
+      margin:
+        0 0 15px;
+
+      font-size:
+        20px;
+
     }
+
+
 
     .langButton {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 12px;
-      background: white;
-      color: black;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      padding:
+        14px;
+
+      margin-top:
+        10px;
+
+      border:
+        none;
+
+      border-radius:
+        12px;
+
+      background:
+        white;
+
+      color:
+        black;
+
+      font-size:
+        17px;
+
+      font-weight:
+        600;
+
+      cursor:
+        pointer;
+
     }
 
+
+
+    /* ============================= */
+    /* СМЕНА ЯЗЫКА                   */
+    /* ============================= */
+
     #changeLanguage {
-      position: fixed;
-      z-index: 9999;
-      top: 20px;
-      right: 20px;
-      padding: 10px 14px;
-      border: none;
-      border-radius: 20px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      font-size: 14px;
-      display: none;
-      cursor: pointer;
+
+      position:
+        fixed;
+
+      z-index:
+        102;
+
+      top:
+        20px;
+
+      right:
+        20px;
+
+      padding:
+        10px 14px;
+
+      border:
+        none;
+
+      border-radius:
+        20px;
+
+      background:
+        rgba(0,0,0,0.7);
+
+      color:
+        white;
+
+      font-size:
+        14px;
+
+      display:
+        none;
+
+      cursor:
+        pointer;
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
+
+  <!-- ============================= -->
+  <!-- ПОДСКАЗКА                     -->
+  <!-- ============================= -->
+
   <div id="scanMessage">
+
     Наведите камеру на диплом
+
   </div>
+
+
+
+  <!-- ============================= -->
+  <!-- СМЕНА ЯЗЫКА                   -->
+  <!-- ============================= -->
 
   <button id="changeLanguage">
+
     Сменить язык
+
   </button>
 
+
+
+  <!-- ============================= -->
+  <!-- МЕНЮ                          -->
+  <!-- ============================= -->
+
   <div id="languageMenu">
-    <h2>Тілді таңдаңыз / Выберите язык</h2>
 
-    <button class="langButton" data-video="#videoKZ">
+    <h2>
+
+      Тілді таңдаңыз
+      /
+      Выберите язык
+
+    </h2>
+
+
+    <button
+      class="langButton"
+      data-src="./video/kaz_hologram.mp4"
+    >
+
       🇰🇿 Қазақша
+
     </button>
 
-    <button class="langButton" data-video="#videoRU">
+
+    <button
+      class="langButton"
+      data-src="./video/rus_hologram.mp4"
+    >
+
       🇷🇺 Русский
+
     </button>
 
-    <button class="langButton" data-video="#videoEN">
+
+    <button
+      class="langButton"
+      data-src="./video/eng_hologram.mp4"
+    >
+
       🇬🇧 English
+
     </button>
+
   </div>
 
+
+
+  <!-- ============================= -->
+  <!-- HTML VIDEO                    -->
+  <!-- ============================= -->
+
+  <video
+
+    id="hologramVideo"
+
+    playsinline
+
+    webkit-playsinline
+
+    preload="none"
+
+  ></video>
+
+
+
+  <!-- ============================= -->
+  <!-- MINDAR                        -->
+  <!-- ============================= -->
+
   <a-scene
+
+    id="arScene"
+
     mindar-image="
       imageTargetSrc: ./targets.mind;
       autoStart: true;
@@ -125,204 +393,650 @@
       filterMinCF: 0.001;
       filterBeta: 1000;
     "
+
     color-space="sRGB"
+
     renderer="
       colorManagement: true;
       physicallyCorrectLights: true;
+      alpha: true;
     "
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false"
+
+    vr-mode-ui="
+      enabled: false;
+    "
+
+    device-orientation-permission-ui="
+      enabled: false;
+    "
+
   >
 
-    <a-assets>
 
-      <video
-        id="videoKZ"
-        src="./video/kaz_hologram.mp4"
-        preload="none"
-        playsinline
-        webkit-playsinline
-        crossorigin="anonymous"
-      ></video>
 
-      <video
-        id="videoRU"
-        src="./video/rus_hologram.mp4"
-        preload="none"
-        playsinline
-        webkit-playsinline
-        crossorigin="anonymous"
-      ></video>
-
-      <video
-        id="videoEN"
-        src="./video/eng_hologram.mp4"
-        preload="none"
-        playsinline
-        webkit-playsinline
-        crossorigin="anonymous"
-      ></video>
-
-    </a-assets>
+    <!-- КАМЕРА -->
 
     <a-camera
+
+      id="arCamera"
+
       position="0 0 0"
-      look-controls="enabled: false"
+
+      look-controls="
+        enabled: false;
+      "
+
     ></a-camera>
 
+
+
+    <!-- TARGET -->
+
     <a-entity
+
       id="target"
-      mindar-image-target="targetIndex: 0"
+
+      mindar-image-target="
+        targetIndex: 0
+      "
+
     >
 
-      <a-plane
-        id="hologram"
-        width="1"
-        height="1.7778"
-        position="0 0 0.1"
-        visible="false"
-      ></a-plane>
+
+      <!--
+
+        ЭТОТ ОБЪЕКТ НЕ ВИДЕН.
+
+        Он нужен только как
+        контрольная точка,
+        положение которой мы
+        переводим из AR в экран.
+
+      -->
+
+      <a-entity
+
+        id="anchorPoint"
+
+        position="
+          0
+          0
+          0
+        "
+
+      ></a-entity>
+
 
     </a-entity>
 
+
   </a-scene>
 
-  <script>
-    const target = document.querySelector("#target");
-    const hologram = document.querySelector("#hologram");
 
-    const languageMenu = document.querySelector("#languageMenu");
-    const scanMessage = document.querySelector("#scanMessage");
-    const changeLanguage = document.querySelector("#changeLanguage");
 
-    let selectedVideo = null;
-    let targetIsVisible = false;
+<script>
 
-    function stopAllVideos() {
-      document.querySelectorAll("video").forEach(video => {
+
+/* ========================================= */
+/* ЭЛЕМЕНТЫ                                  */
+/* ========================================= */
+
+
+const target =
+  document.querySelector("#target");
+
+
+const anchorPoint =
+  document.querySelector("#anchorPoint");
+
+
+const cameraElement =
+  document.querySelector("#arCamera");
+
+
+const video =
+  document.querySelector("#hologramVideo");
+
+
+const languageMenu =
+  document.querySelector("#languageMenu");
+
+
+const scanMessage =
+  document.querySelector("#scanMessage");
+
+
+const changeLanguage =
+  document.querySelector("#changeLanguage");
+
+
+
+/* ========================================= */
+/* СОСТОЯНИЕ                                 */
+/* ========================================= */
+
+
+let targetVisible = false;
+
+let videoSelected = false;
+
+
+
+/* ========================================= */
+/* TARGET FOUND                              */
+/* ========================================= */
+
+
+target.addEventListener(
+
+  "targetFound",
+
+  () => {
+
+    targetVisible = true;
+
+
+    scanMessage.style.display =
+      "none";
+
+
+    if (!videoSelected) {
+
+      languageMenu.style.display =
+        "block";
+
+    }
+
+    else {
+
+      video.style.display =
+        "block";
+
+    }
+
+  }
+
+);
+
+
+
+/* ========================================= */
+/* TARGET LOST                               */
+/* ========================================= */
+
+
+target.addEventListener(
+
+  "targetLost",
+
+  () => {
+
+    targetVisible = false;
+
+
+    languageMenu.style.display =
+      "none";
+
+
+    scanMessage.style.display =
+      "block";
+
+
+    /*
+
+      ВАЖНО:
+
+      Видео НЕ ОСТАНАВЛИВАЕМ.
+
+      Если камера на секунду
+      теряет диплом,
+      звук и тайминг продолжаются.
+
+    */
+
+
+    /*
+      Саму голограмму временно
+      скрываем, потому что мы
+      не знаем точное положение
+      диплома.
+    */
+
+    video.style.display =
+      "none";
+
+  }
+
+);
+
+
+
+/* ========================================= */
+/* ВЫБОР ЯЗЫКА                               */
+/* ========================================= */
+
+
+document
+  .querySelectorAll(".langButton")
+  .forEach(button => {
+
+
+    button.addEventListener(
+
+      "click",
+
+      async () => {
+
+
+        const source =
+          button.dataset.src;
+
+
         video.pause();
-        video.currentTime = 0;
-      });
-    }
 
-    function clearHologramMaterial() {
-      const mesh = hologram.getObject3D("mesh");
 
-      if (mesh && mesh.material) {
-        mesh.material.map = null;
-        mesh.material.needsUpdate = true;
-      }
+        video.src =
+          source;
 
-      hologram.setAttribute("visible", "false");
-    }
 
-    function resetToLanguageMenu() {
-      stopAllVideos();
+        video.load();
 
-      selectedVideo = null;
 
-      clearHologramMaterial();
+        video.currentTime =
+          0;
 
-      changeLanguage.style.display = "none";
 
-      if (targetIsVisible) {
-        scanMessage.style.display = "none";
-        languageMenu.style.display = "block";
-      } else {
-        languageMenu.style.display = "none";
-        scanMessage.style.display = "block";
-      }
-    }
+        videoSelected =
+          true;
 
-    function applyVideoToHologram(video) {
-      const mesh = hologram.getObject3D("mesh");
 
-      if (!mesh) {
-        console.error("Hologram mesh not found");
-        return;
-      }
+        languageMenu.style.display =
+          "none";
 
-      const texture = new THREE.VideoTexture(video);
 
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-      texture.format = THREE.RGBAFormat;
+        changeLanguage.style.display =
+          "block";
 
-      const material = new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        side: THREE.DoubleSide
-      });
 
-      mesh.material = material;
-      mesh.material.needsUpdate = true;
+        video.style.display =
+          "block";
 
-      hologram.setAttribute("visible", "true");
-    }
-
-    target.addEventListener("targetFound", () => {
-      targetIsVisible = true;
-
-      scanMessage.style.display = "none";
-
-      if (!selectedVideo) {
-        languageMenu.style.display = "block";
-      } else {
-        languageMenu.style.display = "none";
-        hologram.setAttribute("visible", "true");
-      }
-    });
-
-    target.addEventListener("targetLost", () => {
-      targetIsVisible = false;
-
-      languageMenu.style.display = "none";
-      scanMessage.style.display = "block";
-
-      /*
-        Видео специально НЕ останавливаем.
-        Если MindAR ненадолго потерял диплом,
-        воспроизведение продолжается.
-      */
-    });
-
-    document.querySelectorAll(".langButton").forEach(button => {
-      button.addEventListener("click", async () => {
-        const selector = button.dataset.video;
-        const video = document.querySelector(selector);
-
-        stopAllVideos();
-
-        selectedVideo = video;
-
-        languageMenu.style.display = "none";
-        changeLanguage.style.display = "block";
-
-        applyVideoToHologram(video);
 
         try {
-          video.muted = false;
-          video.currentTime = 0;
+
+
+          video.muted =
+            false;
+
 
           await video.play();
-        } catch (error) {
-          console.error("Video play error:", error);
+
+
         }
-      });
-    });
 
-    document.querySelectorAll("video").forEach(video => {
-      video.addEventListener("ended", () => {
-        resetToLanguageMenu();
-      });
-    });
 
-    changeLanguage.addEventListener("click", () => {
-      resetToLanguageMenu();
-    });
-  </script>
+        catch(error) {
+
+
+          console.error(
+
+            "Video play error:",
+
+            error
+
+          );
+
+
+        }
+
+
+      }
+
+    );
+
+
+  });
+
+
+
+/* ========================================= */
+/* ВИДЕО ЗАКОНЧИЛОСЬ                         */
+/* ========================================= */
+
+
+video.addEventListener(
+
+  "ended",
+
+  () => {
+
+
+    video.pause();
+
+
+    video.currentTime =
+      0;
+
+
+    video.style.display =
+      "none";
+
+
+    videoSelected =
+      false;
+
+
+    changeLanguage.style.display =
+      "none";
+
+
+    if (targetVisible) {
+
+
+      languageMenu.style.display =
+        "block";
+
+
+      scanMessage.style.display =
+        "none";
+
+
+    }
+
+
+    else {
+
+
+      languageMenu.style.display =
+        "none";
+
+
+      scanMessage.style.display =
+        "block";
+
+
+    }
+
+
+  }
+
+);
+
+
+
+/* ========================================= */
+/* СМЕНА ЯЗЫКА                               */
+/* ========================================= */
+
+
+changeLanguage.addEventListener(
+
+  "click",
+
+  () => {
+
+
+    video.pause();
+
+
+    video.currentTime =
+      0;
+
+
+    video.style.display =
+      "none";
+
+
+    videoSelected =
+      false;
+
+
+    changeLanguage.style.display =
+      "none";
+
+
+    if (targetVisible) {
+
+
+      languageMenu.style.display =
+        "block";
+
+
+    }
+
+
+  }
+
+);
+
+
+
+/* ========================================= */
+/* AR POSITION → SCREEN POSITION             */
+/* ========================================= */
+
+
+const worldPosition =
+  new THREE.Vector3();
+
+
+const projectedPosition =
+  new THREE.Vector3();
+
+
+
+function updateHologramPosition() {
+
+
+  requestAnimationFrame(
+    updateHologramPosition
+  );
+
+
+  /*
+
+    Ничего не вычисляем,
+    пока видео не выбрано
+    или диплом потерян.
+
+  */
+
+
+  if (
+
+    !targetVisible ||
+
+    !videoSelected
+
+  ) {
+
+    return;
+
+  }
+
+
+
+  const camera =
+    cameraElement.getObject3D(
+      "camera"
+    );
+
+
+  if (!camera) {
+
+    return;
+
+  }
+
+
+
+  /*
+
+    Получаем реальную
+    мировую позицию target.
+
+  */
+
+
+  anchorPoint
+    .object3D
+    .getWorldPosition(
+      worldPosition
+    );
+
+
+
+  /*
+
+    Переводим координаты
+    AR-сцены в координаты
+    экрана.
+
+  */
+
+
+  projectedPosition
+    .copy(worldPosition)
+    .project(camera);
+
+
+
+  const screenX =
+
+    (
+      projectedPosition.x *
+      0.5 +
+      0.5
+    )
+
+    *
+
+    window.innerWidth;
+
+
+
+  const screenY =
+
+    (
+      -projectedPosition.y *
+      0.5 +
+      0.5
+    )
+
+    *
+
+    window.innerHeight;
+
+
+
+  /* ======================================= */
+  /* РАЗМЕР ГОЛОГРАММЫ                       */
+  /* ======================================= */
+
+
+  /*
+
+    Приблизительный масштаб
+    относительно расстояния
+    от камеры.
+
+  */
+
+
+  const distance =
+
+    camera
+      .getWorldPosition(
+        new THREE.Vector3()
+      )
+      .distanceTo(
+        worldPosition
+      );
+
+
+
+  let videoWidth =
+
+    window.innerWidth *
+
+    (0.75 / Math.max(distance, 0.5));
+
+
+
+  /*
+
+    Ограничиваем размеры,
+    чтобы видео не стало
+    гигантским.
+
+  */
+
+
+  videoWidth =
+
+    Math.min(
+
+      videoWidth,
+
+      window.innerWidth * 0.85
+
+    );
+
+
+
+  videoWidth =
+
+    Math.max(
+
+      videoWidth,
+
+      140
+
+    );
+
+
+
+  video.style.width =
+
+    videoWidth + "px";
+
+
+
+  /* ======================================= */
+  /* ПОЗИЦИЯ                                 */
+  /* ======================================= */
+
+
+  video.style.left =
+
+    screenX + "px";
+
+
+  video.style.top =
+
+    screenY + "px";
+
+
+  video.style.transform =
+
+    "translate(-50%, -50%)";
+
+
+  video.style.display =
+
+    "block";
+
+}
+
+
+
+updateHologramPosition();
+
+
+
+</script>
+
 
 </body>
+
 </html>
