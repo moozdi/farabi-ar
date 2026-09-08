@@ -88,35 +88,37 @@
 
     #scanMessage {
 
-      position: fixed;
+  position: fixed;
 
-      z-index: 100;
+  z-index: 100;
 
-      left: 50%;
-      bottom: 35px;
+  left: 50%;
+  bottom: 35px;
 
-      transform:
-        translateX(-50%);
+  transform: translateX(-50%);
 
-      padding:
-        12px 20px;
+  width: calc(100% - 40px);
+  max-width: 420px;
 
-      background:
-        rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
 
-      color:
-        white;
+  padding: 12px 18px;
 
-      border-radius:
-        30px;
+  background: rgba(0, 0, 0, 0.7);
 
-      font-size:
-        15px;
+  color: white;
 
-      white-space:
-        nowrap;
+  border-radius: 20px;
 
-    }
+  font-size: 14px;
+
+  line-height: 1.4;
+
+  text-align: center;
+
+  white-space: normal;
+
+}
 
 
     /* ============================= */
@@ -1179,7 +1181,7 @@ function updateHologramPosition() {
   const hologramWidth =
 
     targetWidthPixels *
-    1.0;
+    0.55;
 
 
 
